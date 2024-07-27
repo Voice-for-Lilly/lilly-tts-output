@@ -5,22 +5,11 @@ FROM ${BASE}
 WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get upgrade -y
-# Install necessary system dependencies
-RUN apt-get install -y --no-install-recommends \
-    gcc \
-    g++ \
-    make \
-    python3 \
-    python3-dev \
-    python3-pip \
-    python3-venv \
-    python3-wheel \
-    espeak-ng \
-    libsndfile1-dev \
-    portaudio19-dev \
-    libasound2-dev \
-    && rm -rf /var/lib/apt/lists/*
-    
+RUN apt-get install -y --no-install-recommends gcc g++ make python3 python3-dev python3-pip python3-venv python3-wheel espeak-ng libsndfile1-dev ffmpeg screen && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y portaudio19-dev libasound2-dev
+
 RUN pip3 install llvmlite --ignore-installed
 
 # Install FFmpeg
