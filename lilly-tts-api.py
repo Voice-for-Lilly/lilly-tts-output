@@ -42,6 +42,7 @@ def find_usb_soundcard_index(p):
     
     for i in range(p.get_device_count()):
         info = p.get_device_info_by_index(i)
+        print(info.get('name', ''))
         if f"hw:{card},{device}" in info.get('name', ''):
             print(f"Found USB soundcard at index {i}")
             return i
@@ -50,18 +51,9 @@ def find_usb_soundcard_index(p):
             return i
     raise ValueError("USB soundcard not found")
 
-def get_audio_file(text, voice="Rachel", model="eleven_multilingual_v2"):
-    try:
-        audio_file = synthesize_audio_file("tmp2.wav", text)
-        play_audio(audio_file)
-    except Exception as e:
-        print(f"Local coqui tts failed: {e}. Trying elevenlabs tts.")
-        audio = generate_speech_elevenlabs(text, voice, model)
-
-        with open("tmp2.wav", "wb") as file:
-            file.write(audio)
-        
-        play_audio("tmp2.wav")
+def get_audio_file(text):
+    audio_file = synthesize_audio_file("tmp2.wav", text)
+    play_audio(audio_file)
 
 @app.route("/tts", methods=["POST"])
 def tts():
